@@ -58,6 +58,16 @@ def place_bombs(game_grid):
 
     return game_grid
 
+def get_neighbours_to_open(game_grid, x, y):
+    neighbours_to_open = []
+
+    if get_tile_value(game_grid, x, y) == 0:
+        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y) if get_tile_value(game_grid, x, y) != -1]
+    elif get_tile_value(game_grid, x, y) != -1:
+        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y) if get_tile_value(game_grid, x, y) == -1]
+
+    return neighbours_to_open
+
 def tile_number_calculate(game_grid):
     '''Go through each tile of game grid and sum 1 if neighbour is bomb'''
     for i, row in enumerate(game_grid):
@@ -104,8 +114,21 @@ def get_tile_value(game_grid, x, y):
     '''Return value of a tile''' 
     return game_grid[x][y]
 
+def is_tile_open(state_grid, x, y):
+    return state_grid[x][y] != ' '
+
+def get_all_tiles(grid):
+    flat_list = []
+    for row in grid:
+        for item in row:
+            if item == 0:
+                flat_list.append(0)
+            else:
+                flat_list.append(item)
+    return flat_list
+
 def game_grid_init():
     game_grid, state_grid = game_grid_create()
     game_grid = place_bombs(game_grid)
     
-    return game_grid
+    return game_grid, state_grid
