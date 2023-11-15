@@ -141,6 +141,15 @@ def is_game_over(game_grid, state_grid):
         return True
     else:
         return False
+    
+def open_tile(game_grid, state_grid, x, y):
+    tiles_to_open = [(x,y)]
+    for tile in set(tiles_to_open):
+        tiles_to_open.extend(get_neighbours_to_open(game_grid, *tile))
+    for tile in set(tiles_to_open):
+        state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
+    
+    return state_grid
 
 def make_move(game_grid, state_grid, cmd, x, y):
     if not is_tile_open(state_grid, x, y):
