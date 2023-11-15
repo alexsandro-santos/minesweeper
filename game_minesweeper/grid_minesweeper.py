@@ -127,6 +127,22 @@ def get_all_tiles(grid):
                 flat_list.append(item)
     return flat_list
 
+def is_game_over(game_grid, state_grid):
+    for row in state_grid:
+        for tile in row:
+            if get_tile_value(game_grid, *tile) == -1:
+                return True
+            
+    number_unclicked_tiles = get_all_tiles(state_grid).count(' ')
+    dict_number_bombs = {10: 20, 15: 35, 20: 50}
+    size_grid = len(game_grid)
+
+    if dict_number_bombs[size_grid] == number_unclicked_tiles():
+        return True
+    else:
+        return False
+
+
 def game_grid_init():
     game_grid, state_grid = game_grid_create()
     game_grid = place_bombs(game_grid)
