@@ -90,7 +90,6 @@ def grid_to_string(game_grid):
         separator+= ' ==='
     for line in game_grid:
         game_string+=(separator + '\n')
-        index = 0
         line_string = "|"
         for item in line:
             if item == 0:
