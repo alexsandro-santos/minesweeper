@@ -6,3 +6,8 @@ print(state_grid)
 
 bombs = get_bombs_positions(game_grid)
 print(bombs)
+
+game_grid = place_bombs(game_grid)
+print(game_grid)
+
+print(grid_to_string(game_grid))
