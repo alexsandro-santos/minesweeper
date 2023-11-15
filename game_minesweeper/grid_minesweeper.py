@@ -71,12 +71,23 @@ def get_tile_neighbours(x, y):
 
 def grid_to_string(game_grid):
     '''Return grid as string so it's visible in CLI'''
-    grid_as_string = '''
-
-
-    '''
-
-    return grid_as_string
+    
+    separator = ''
+    game_string = ''
+    for _ in range (len(game_grid)):
+        separator+= ' ==='
+    for line in game_grid:
+        game_string+=(separator + '\n')
+        index = 0
+        line_string = "|"
+        for item in line:
+            if item == 0:
+                item = ' '
+            line_string += " " + str(item) + ' |'
+        game_string+=line_string+'\n'
+    game_string+=separator
+    
+    return game_string
 
 def get_tile_value(x, y):
     '''Return value of a tile'''
