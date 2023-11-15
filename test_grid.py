@@ -1,4 +1,4 @@
-from grid_minesweeper import *
+from game_minesweeper.grid_minesweeper import *
 
 def test_create_grid():
     assert game_grid_create() == []
