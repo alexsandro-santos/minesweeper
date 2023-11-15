@@ -142,6 +142,17 @@ def is_game_over(game_grid, state_grid):
     else:
         return False
 
+def make_move(game_grid, state_grid, cmd, x, y):
+    if not is_tile_open(state_grid, x, y):
+        match cmd:
+            case "o":
+                open_tile(game_grid, state_grid, x, y)
+            case "f":
+                state_grid[x][y] = "f"
+            case "?":
+                state_grid[x][y] = "?"
+
+    return state_grid
 
 def game_grid_init():
     game_grid, state_grid = game_grid_create()

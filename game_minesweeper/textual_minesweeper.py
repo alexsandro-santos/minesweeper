@@ -15,13 +15,13 @@ def read_player_difficulty():
 
 def read_player_command():
     while True:
-        choice = input("Choose move between 'open', 'flag' or '?':")
+        choice = input("Choose move between 'o' for open, 'f' for flag or '?':")
         try:
             choice = str(choice)
         except ValueError:
             print("Valid choice, please") 
             continue
-        if choice in {"open", "flag", "?"}:
+        if choice in {"o", "f", "?"}:
             break
         else:
             print("Valid choice, please")
