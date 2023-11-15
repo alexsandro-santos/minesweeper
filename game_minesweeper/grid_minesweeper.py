@@ -108,4 +108,4 @@ def game_grid_init():
     game_grid, state_grid = game_grid_create()
     game_grid = place_bombs(game_grid)
     
-    return game_grid
+    return game_grid, state_grid
