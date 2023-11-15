@@ -16,7 +16,7 @@ def game_grid_create():
     for i in range(dict_complexity_size[complexity]):
         row = []
         for j in range(dict_complexity_size[complexity]):
-            row.append(' ')
+            row.append(0)
         game_grid.append(row)
 
     state_grid = game_grid
@@ -100,9 +100,8 @@ def grid_to_string(game_grid):
 
     return game_string
 
-def get_tile_value(x, y, game_grid):
+def get_tile_value(game_grid, x, y):
     '''Return value of a tile''' 
-
     return game_grid[x][y]
 
 def game_grid_init():
