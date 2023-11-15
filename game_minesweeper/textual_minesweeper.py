@@ -14,4 +14,16 @@ def read_player_difficulty():
     return choice
 
 def read_player_command():
-    pass
+    while True:
+        choice = input("Choose move between 'open', 'flag' or '?':")
+        try:
+            choice = str(choice)
+        except ValueError:
+            print("Valid choice, please") 
+            continue
+        if choice in {"open", "flag", "?"}:
+            break
+        else:
+            print("Valid choice, please")
+
+    return choice
