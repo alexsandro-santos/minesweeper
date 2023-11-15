@@ -11,4 +11,4 @@ print(grid_to_string(game_grid))
 
 game_grid = tile_number_calculate(game_grid)
 
-print(grid_to_string(game_grid))
+print('\n'+grid_to_string(game_grid))
