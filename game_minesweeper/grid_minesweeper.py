@@ -36,12 +36,19 @@ def place_bombs(game_grid):
 
 def tile_number_calculate(game_grid):
     '''Go through each tile of game grid and sum 1 if neighbour is bomb'''
+
+    
     
     return game_grid
 
-def get_tile_neighbours(x, y):
-    '''Return all 8 neighbours of certain element'''
+def get_tile_neighbours(game_grid, x, y):
+    '''Return the coordinates of the 8 neighbours of certain element'''
     neighbours = []
+    grid_dim = (len(game_grid[0]), len(game_grid))
+    valid_x = [x+i for i in range(-1,2) if 0 <= x+i < grid_dim[0]]
+    valid_y = [y+i for i in range(-1,2) if 0 <= y+i < grid_dim[1]]
+    for i in valid_x:
+        neighbours.extend([(i,j) for j in valid_y if (i,j) != (x,y)])
 
     return neighbours
 
