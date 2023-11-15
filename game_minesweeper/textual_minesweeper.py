@@ -27,3 +27,18 @@ def read_player_command():
             print("Valid choice, please")
 
     return choice
+
+def read_player_coordinates(game_grid):
+    while True:
+        choice = input(f"Choose coordinates between 1 and {len(game_grid)}:")
+        try:
+            choice = int(choice)
+        except Exception:
+            print("Valid choice, please") 
+            continue
+        if 1 <= choice <= len(game_grid):
+            break
+        else:
+            print("Valid choice, please")
+
+    return choice-1
