@@ -38,7 +38,7 @@ def get_random_position(game_grid):
 def get_bombs_positions(game_grid):
     '''Create random positions for bombs'''
     size_grid = len(game_grid)
-    dict_number_bombs_by_size = {10: 10, 15: 25, 20: 40}
+    dict_number_bombs_by_size = {10: 20, 15: 35, 20: 50}
     bombs = [None] * dict_number_bombs_by_size[size_grid]
     i = 0
 
@@ -102,7 +102,7 @@ def get_tile_value(x, y, game_grid):
     return game_grid[x][y]
 
 def game_grid_init():
-    game_grid = game_grid_create()
-    positions_bombs(game_grid)
+    game_grid, state_grid = game_grid_create()
+    game_grid = place_bombs(game_grid)
     
-    return 
+    return game_grid
