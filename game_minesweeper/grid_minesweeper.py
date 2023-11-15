@@ -60,8 +60,13 @@ def place_bombs(game_grid):
 
 def tile_number_calculate(game_grid):
     '''Go through each tile of game grid and sum 1 if neighbour is bomb'''
-
-    
+    for i, row in enumerate(game_grid):
+        for j, tile in enumerate(row):
+            if tile == -1:
+                neighbours = get_tile_neighbours(game_grid, i, j)
+                for neighbour in neighbours:
+                    if get_tile_value(game_grid, *neighbour) != -1:
+                        game_grid[neighbour[0]][neighbour[1]] += 1
     
     return game_grid
 
