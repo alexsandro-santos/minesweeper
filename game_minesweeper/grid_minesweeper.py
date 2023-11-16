@@ -1,5 +1,5 @@
 import random
-
+import os
 from game_minesweeper.textual_minesweeper import *
 
 difficulty = {"easy": (6, 6), "medium": (15, 35), "hard": (20, 50)}
@@ -43,7 +43,7 @@ def get_bombs_positions(game_grid, n_bombs):
     '''Create random positions for bombs'''
 
     bombs = []
-
+    i = 0
     while i < n_bombs:
         random_position = get_random_position(game_grid)
         if random_position not in bombs:
@@ -170,10 +170,8 @@ def make_move(game_grid, state_grid, cmd, x, y):
 def is_game_over(state_grid, n_bombs):
     '''Check if game is over by clicking on bomb or if player won'''
 
-    for row in state_grid:
-        for tile in row:
-            if tile == -1:
-                return True
+    if -1 in get_all_tiles(state_grid):
+        return True
             
     number_unclicked_tiles = get_all_tiles(state_grid).count(' ')
     number_unclicked_tiles += get_all_tiles(state_grid).count('f')
@@ -182,7 +180,27 @@ def is_game_over(state_grid, n_bombs):
     return n_bombs == number_unclicked_tiles
 
 def game_play():
-    pass
+    n, n_bombs = read_player_difficulty()
+
+    game_grid, state_grid = game_grid_init(n, n_bombs)
+
+    os.system("cls" if os.name == "nt" else "clear")
+    print(grid_to_string(state_grid))
+
+    while not is_game_over(state_grid, n_bombs):
+        move = read_player_command()
+        coordinate_x = read_player_coordinate(n)
+        coordinate_y = read_player_coordinate(n)
+
+        state_grid = make_move(game_grid, state_grid, move, coordinate_x, coordinate_y)
+
+        os.system("cls" if os.name == "nt" else "clear")
+        print(grid_to_string(state_grid))
+
+    if -1 in get_all_tiles(state_grid):
+        print('\nYou lost')
+    else:
+        print('\nYou won!')
 
 #is game over
 #get neighbours

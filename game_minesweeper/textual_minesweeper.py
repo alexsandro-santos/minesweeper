@@ -22,15 +22,15 @@ def read_player_command():
 
     return cmd
 
-def read_player_coordinate(game_grid):
+def read_player_coordinate(n):
     while True:
-        choice = input(f"Choose coordinates between 1 and {len(game_grid)}:")
+        choice = input(f"Choose coordinates between 1 and {n}:")
         try:
             choice = int(choice)
         except Exception:
             print("Valid choice, please") 
             continue
-        if 1 <= choice <= len(game_grid):
+        if 1 <= choice <= n:
             break
         else:
             print("Valid choice, please")
