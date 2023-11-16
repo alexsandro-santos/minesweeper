@@ -3,7 +3,7 @@ import os
 from game_minesweeper.grid_minesweeper import *
 from game_minesweeper.textual_minesweeper import *
 
-# n, n_bombs = read_size()
+# n, n_bombs = read_player_difficulty()
 # game_grid, state_grid = game_grid_init(n)
 
 # os.system("cls" if os.name == "nt" else "clear")
@@ -11,8 +11,8 @@ from game_minesweeper.textual_minesweeper import *
 
 # while not is_game_over(state_grid, n_bombs):
 #     move = read_player_command()
-#     coordinate_x = read_player_coordinates(game_grid)
-#     coordinate_y = read_player_coordinates(game_grid)
+#     coordinate_x = read_player_coordinate(game_grid)
+#     coordinate_y = read_player_coordinate(game_grid)
 
 #     state_grid = make_move(game_grid, state_grid, move, coordinate_x, coordinate_y)
 
