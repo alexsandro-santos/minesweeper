@@ -1,5 +1,3 @@
-import os
-
 from game_minesweeper.grid_minesweeper import *
 from game_minesweeper.textual_minesweeper import *
 
@@ -38,11 +36,11 @@ def test_game_grid_create(n=10):
     assert all(tile == ' ' for row in state_grid_1 for tile in row) 
 
 
-def test_get_random_position(game_grid):
+def test_get_random_position(n):
 
-    position = get_random_position(game_grid)
+    position = get_random_position(n)
 
-    assert position[0] < len(game_grid) and position[1] < len(game_grid) and position[0] >= 0 and position[1] >= 0
+    assert position[0] < n and position[1] < n and position[0] >= 0 and position[1] >= 0
 
 
 # def test_get_bombs_positions(game_grid_without_bombs, n_bombs=10):
@@ -55,27 +53,22 @@ def test_get_random_position(game_grid):
 
 
 
-def test_get_bombs_positions(game_grid_without_bombs, n_bombs):
-    positions_list = get_bombs_positions(game_grid_without_bombs, 20)
+def test_get_bombs_positions(n, n_bombs):
+    positions_list = get_bombs_positions(n, n_bombs)
     for position in positions_list:
-        if position[0] < len(game_grid_without_bombs) and position[1] < len(game_grid_without_bombs) and position[0] >= 0 and position[1] >= 0:
+        if position[0] < n and position[1] < n and position[0] >= 0 and position[1] >= 0:
             pass
         else:
-            assert position[0] < len(game_grid_without_bombs) and position[1] < len(game_grid_without_bombs) and position[0] >= 0 and position[1] >= 0
+            assert position[0] < n and position[1] < n and position[0] >= 0 and position[1] >= 0
     
-    size_grid = len(game_grid_without_bombs)
-    number_of_bombs = 20
-    assert number_of_bombs == len(positions_list)
+    assert n_bombs == len(positions_list)
 
 
-def test_place_bombs(game_grid_without_bombs, n_bombs):
+def test_place_bombs_at_random(game_grid_without_bombs, n_bombs):
 
-    size_grid = len(game_grid_without_bombs)
-    number_of_bombs = 20
-
-    grid_with_bombs = place_bombs(game_grid_without_bombs, n_bombs)
+    grid_with_bombs = place_bombs_at_random(game_grid_without_bombs, n_bombs)
     
-    assert sum(1 for row in grid_with_bombs for element in row if element == -1) == number_of_bombs
+    assert sum(1 for row in grid_with_bombs for element in row if element == -1) == n_bombs
 
     
 def test_get_tile_neighbours(game_grid, x, y):
@@ -136,7 +129,7 @@ def test_get_all_tiles():
 
     assert get_all_tiles([[16,4,8,2], [2,4,2,128], [4,512,32,64], [1024,2048,512,2]]) == [16, 4, 8, 2, 2, 4, 2, 128, 4, 512, 32, 64, 1024, 2048, 512, 2]
     
-def test_grid_init():
+def test_game_grid_init():
     game_grid1, state_grid1 = game_grid_init(10, 20, (1,1))
     assert game_grid1[1][1] != -1
 
@@ -268,10 +261,10 @@ def test_open_tiles(game_grid, state_grid, x, y):
     state_grid = open_tiles(game_grid, state_grid, 2, 4)
     assert state_grid == [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', 2, 1, 2, ' ', ' ', ' '], [' ', ' ', ' ', ' ', 1, 0, 1, ' ', ' ', ' '], [' ', ' ', ' ', ' ', 2, 1, 2, ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
 
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    test_game_grid_create()
+    test_get_random_position(10)
+    test_get_bombs_positions(10, 20)
+    test_place_bombs_at_random(game_grid_without_bombs, 20)
+    test_tile_number_calculate()
+    test_game_grid_init()
