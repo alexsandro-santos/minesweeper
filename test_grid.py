@@ -126,3 +126,9 @@ def test_tile_number_calculate():
 
     assert tile_number_calculate(input) == output
 
+def test_get_neighbours_to_open(game_grid):
+    neighbours = get_neighbours_to_open(game_grid, 2, 5)
+    print(neighbours)
+    
+    assert set(neighbours) == {(1, 4), (2, 4), (3, 4), (1, 5), (3, 5), (1, 6), (2, 6), (3, 6)}
+
