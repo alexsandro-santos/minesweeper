@@ -2,8 +2,6 @@ import random
 import os
 from game_minesweeper.textual_minesweeper import *
 
-difficulty = {"easy": (6, 6), "medium": (15, 35), "hard": (20, 50)}
-
 def game_grid_create(n=6):
     '''Create game matrix and state matrix for interface'''
     
@@ -87,11 +85,19 @@ def tile_number_calculate(game_grid):
     
     return game_grid
 
-def game_grid_init(n, n_bombs):
+def game_grid_init(n, n_bombs, first_move):
     '''Initializes grid'''
 
     game_grid, state_grid = game_grid_create(n)
     game_grid = place_bombs(game_grid, n_bombs)
+
+    if get_tile_value(game_grid, *first_move) == -1:
+        new_bomb_pos = get_random_position(game_grid)
+        while get_tile_value(game_grid, *new_bomb_pos) == -1:
+            new_bomb_pos = get_random_position(game_grid)
+        game_grid[first_move[0]][first_move[1]] = 0
+        game_grid[new_bomb_pos[0]][new_bomb_pos[1]] = -1
+
     game_grid = tile_number_calculate(game_grid)
     
     return game_grid, state_grid
@@ -103,6 +109,7 @@ def grid_to_string(grid):
     grid_str = ''
     for line in grid:
         grid_str += line_sep
+        line = [tile if tile != -1 else '*' for tile in line]
         grid_str += '|'+'|'.join(str(tile).center(max_tile+2) for tile in line)+'|'
     grid_str += line_sep
 
@@ -182,20 +189,32 @@ def is_game_over(state_grid, n_bombs):
 def game_play():
     n, n_bombs = read_player_difficulty()
 
-    game_grid, state_grid = game_grid_init(n, n_bombs)
+    _, state_grid = game_grid_create(n)
+    print(grid_to_string(state_grid))
+
+    cmd = read_player_command()
+    first_coord_x = read_player_coordinate(n)
+    first_coord_y = read_player_coordinate(n)
+
+    game_grid, state_grid = game_grid_init(n, n_bombs, (first_coord_x, first_coord_y))
+
+    state_grid = make_move(game_grid, state_grid, cmd, first_coord_x, first_coord_y)
 
     os.system("cls" if os.name == "nt" else "clear")
     print(grid_to_string(state_grid))
 
     while not is_game_over(state_grid, n_bombs):
-        move = read_player_command()
+        cmd = read_player_command()
         coordinate_x = read_player_coordinate(n)
         coordinate_y = read_player_coordinate(n)
 
-        state_grid = make_move(game_grid, state_grid, move, coordinate_x, coordinate_y)
+        state_grid = make_move(game_grid, state_grid, cmd, coordinate_x, coordinate_y)
 
         os.system("cls" if os.name == "nt" else "clear")
         print(grid_to_string(state_grid))
+
+    os.system("cls" if os.name == "nt" else "clear")
+    print(grid_to_string(game_grid))
 
     if -1 in get_all_tiles(state_grid):
         print('\nYou lost')

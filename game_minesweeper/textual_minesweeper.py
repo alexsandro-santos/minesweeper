@@ -1,4 +1,4 @@
-difficulty = {"easy": (6, 6), "medium": (15, 35), "hard": (20, 50)}
+difficulty = {"easy": (10, 20), "medium": (16, 35), "hard": (20, 50)}
 
 def read_player_difficulty():
     while True:
