@@ -51,8 +51,9 @@ def get_bombs_positions(game_grid):
     i = 0
 
     while i < dict_number_bombs_by_size[size_grid]:
-        if get_random_position(game_grid) not in bombs:
-            bombs[i] = get_random_position(game_grid)
+        random_position = get_random_position(game_grid)
+        if random_position not in bombs:
+            bombs[i] = random_position
             i += 1
 
     return bombs
@@ -154,6 +155,9 @@ def is_game_over(game_grid, state_grid):
                 return True
             
     number_unclicked_tiles = get_all_tiles(state_grid).count(' ')
+    number_unclicked_tiles += get_all_tiles(state_grid).count('f')
+    number_unclicked_tiles += get_all_tiles(state_grid).count('?')
+    
     size_grid = len(game_grid)
 
     if dict_number_bombs_by_size[size_grid] == number_unclicked_tiles:
@@ -165,24 +169,31 @@ def open_tiles(game_grid, state_grid, x, y):
     '''Returns player grid after update'''
 
     tiles_to_open = [(x,y)]
-    for tile in set(tiles_to_open):
+    for tile in tiles_to_open:
         tiles_to_open.extend(get_neighbours_to_open(game_grid, *tile))
-    for tile in set(tiles_to_open):
-        state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
+    for tile in tiles_to_open:
+        if get_tile_value(state_grid, *tile) in {' ', 'f', '?'}:
+            state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
     
     return state_grid
 
 def make_move(game_grid, state_grid, cmd, x, y):
     '''Chooses action to do on player grid based on the command the player entered'''
 
-    if not is_tile_open(state_grid, x, y):
+    if get_tile_value(state_grid, x, y) in {' ', 'f', '?'}:
         match cmd:
             case "o":
                 open_tiles(game_grid, state_grid, x, y)
             case "f":
-                state_grid[x][y] = "f"
+                if state_grid[x][y] == ' ':
+                    state_grid[x][y] = 'f'
+                elif state_grid[x][y] == 'f':
+                    state_grid[x][y] = ' '
             case "?":
-                state_grid[x][y] = "?"
+                if state_grid[x][y] == ' ':
+                    state_grid[x][y] = '?'
+                elif state_grid[x][y] == '?':
+                    state_grid[x][y] = ' '
 
     return state_grid
 
@@ -194,3 +205,8 @@ def game_grid_init():
     game_grid = tile_number_calculate(game_grid)
     
     return game_grid, state_grid
+
+
+#is game over
+#get neighbours
+#open tile
