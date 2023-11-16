@@ -73,9 +73,9 @@ def get_neighbours_to_open(game_grid, x, y):
     neighbours_to_open = []
 
     if get_tile_value(game_grid, x, y) == 0:
-        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y) if get_tile_value(game_grid, x, y) != -1]
+        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y)]
     elif get_tile_value(game_grid, x, y) != -1:
-        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y) if get_tile_value(game_grid, x, y) == -1]
+        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y) if get_tile_value(game_grid, *item) == 0]
 
     return neighbours_to_open
 
