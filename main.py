@@ -1,0 +1,1 @@
+from interface_minesweeper.interface_minesweeper import *
