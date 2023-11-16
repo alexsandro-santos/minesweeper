@@ -32,14 +32,14 @@ def right_click(event):
     bot = event.widget
     if bot['state'] == 'normal':
         if bot["bg"] == "light gray" and bot["text"] == "":
-            event.widget.configure(bg="red")
-            event.widget.configure(text = flag)
+            bot.configure(bg="red")
+            bot.configure(text = flag)
         elif bot["text"] == flag:
-            event.widget.configure(text=qm)
-            event.widget.configure(bg="light blue")
+            bot.configure(text=qm)
+            bot.configure(bg="light blue")
         else:
-            event.widget.configure(text="")
-            event.widget.configure(bg="light gray")
+            bot.configure(text="")
+            bot.configure(bg="light gray")
 
 def get_text(grid, i, j):
     global exploded
@@ -176,5 +176,6 @@ def setup_grid(x):
     #print(len(grid), len(grid[0]))
     return grid
 
-startup()
-root.mainloop()
+if __name__ == "__main__":
+    startup()
+    root.mainloop()
