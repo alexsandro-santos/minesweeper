@@ -24,18 +24,14 @@ game_grid_without_bombs = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-
-def test_game_grid_size(complexity='easy'):
-
-    dict_complexity_size = {"easy": 10, "medium": 15, "hard": 20}
-
-    game_grid, state_grid = game_grid_create(complexity)
-
-    grid_size = len(game_grid)
-
-    grid_size_expected = dict_complexity_size[complexity]
-
-    assert grid_size == grid_size_expected
+def test_game_grid_create(n=10):
+    game_grid_1, state_grid_1 = game_grid_create()
+    assert len(game_grid_1) == 10
+    assert len(game_grid_1[0]) == 10
+    assert all(tile == 0 for row in game_grid_1 for tile in row)
+    assert len(state_grid_1) == 10
+    assert len(state_grid_1[0]) == 10
+    assert all(tile == ' ' for row in state_grid_1 for tile in row) 
 
 
 def test_get_random_position(game_grid):
@@ -45,8 +41,18 @@ def test_get_random_position(game_grid):
     assert position[0] < len(game_grid) and position[1] < len(game_grid) and position[0] >= 0 and position[1] >= 0
 
 
-def test_get_bombs_positions(game_grid_without_bombs):
-    positions_list = get_bombs_positions(game_grid_without_bombs)
+# def test_get_bombs_positions(game_grid_without_bombs, n_bombs=10):
+    
+#     positions_list = get_bombs_positions(game_grid_without_bombs, n_bombs=10)
+#     assert len(positions_list) == 10
+#     assert all(isinstance(bomb, tuple) and len(bomb) == 2 for bomb in positions_list)
+#     assert all(0 <= bomb[0] < len(game_grid_1) and 0 <= bomb[1] < len(game_grid_without_bombs[0]) for bomb in positions_list)
+#     assert all(game_grid_without_bombs[bomb[0]][bomb[1]] == -1 for bomb in positions_list)
+
+
+
+def test_get_bombs_positions(game_grid_without_bombs, n_bombs):
+    positions_list = get_bombs_positions(game_grid_without_bombs, 20)
     for position in positions_list:
         if position[0] < len(game_grid_without_bombs) and position[1] < len(game_grid_without_bombs) and position[0] >= 0 and position[1] >= 0:
             pass
@@ -54,17 +60,17 @@ def test_get_bombs_positions(game_grid_without_bombs):
             assert position[0] < len(game_grid_without_bombs) and position[1] < len(game_grid_without_bombs) and position[0] >= 0 and position[1] >= 0
     
     size_grid = len(game_grid_without_bombs)
-    number_of_bombs = dict_number_bombs_by_size[size_grid]
+    number_of_bombs = 20
     assert number_of_bombs == len(positions_list)
 
 
-def test_place_bombs(game_grid_without_bombs):
+def test_place_bombs(game_grid_without_bombs, n_bombs):
 
     size_grid = len(game_grid_without_bombs)
-    number_of_bombs = dict_number_bombs_by_size[size_grid]
+    number_of_bombs = 20
 
-    grid_with_bombs = place_bombs(game_grid_without_bombs)
-    print(sum(1 for row in grid_with_bombs for element in row if element == -1))
+    grid_with_bombs = place_bombs(game_grid_without_bombs, n_bombs)
+    
     assert sum(1 for row in grid_with_bombs for element in row if element == -1) == number_of_bombs
 
     

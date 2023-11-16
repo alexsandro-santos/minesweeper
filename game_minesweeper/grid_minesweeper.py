@@ -2,29 +2,24 @@ import random
 
 from game_minesweeper.textual_minesweeper import *
 
-dict_number_bombs_by_size = {10: 20, 15: 35, 20: 50}
+difficulty = {"easy": (10, 20), "medium": (16, 35), "hard": (20, 50)}
 
-def game_grid_create(complexity=None):
+def game_grid_create(n=10):
     '''Create game matrix and state matrix for interface'''
-
-    if complexity == None:
-        complexity = read_player_difficulty()
-
-    dict_complexity_size = {"easy": 10, "medium": 15, "hard": 20}
-
+    
     game_grid = []
     state_grid = []
     row = []
 
-    for i in range(dict_complexity_size[complexity]):
+    for i in range(n):
         row = []
-        for j in range(dict_complexity_size[complexity]):
+        for j in range(n):
             row.append(0)
         game_grid.append(row)
 
-    for i in range(dict_complexity_size[complexity]):
+    for i in range(n):
         row = []
-        for j in range(dict_complexity_size[complexity]):
+        for j in range(n):
             row.append(' ')
         state_grid.append(row)
     
@@ -44,25 +39,23 @@ def get_random_position(game_grid):
 
     return random_position
 
-def get_bombs_positions(game_grid):
+def get_bombs_positions(game_grid, n_bombs):
     '''Create random positions for bombs'''
 
-    size_grid = len(game_grid)
-    bombs = [None] * dict_number_bombs_by_size[size_grid]
-    i = 0
-
-    while i < dict_number_bombs_by_size[size_grid]:
+    bombs = []
+    i=0
+    while i < n_bombs:
         random_position = get_random_position(game_grid)
         if random_position not in bombs:
-            bombs[i] = random_position
+            bombs.append(random_position)
             i += 1
 
     return bombs
 
-def place_bombs(game_grid):
+def place_bombs(game_grid, n_bombs):
     '''Substitute bombs in game grid'''
 
-    bombs = get_bombs_positions(game_grid)
+    bombs = get_bombs_positions(game_grid, n_bombs)
 
     for bomb in bombs:
         game_grid[bomb[0]][bomb[1]] = -1
@@ -94,6 +87,44 @@ def tile_number_calculate(game_grid):
     
     return game_grid
 
+def game_grid_init(n, n_bombs):
+    '''Initializes grid'''
+
+    game_grid, state_grid = game_grid_create(n)
+    game_grid = place_bombs(game_grid, n_bombs)
+    game_grid = tile_number_calculate(game_grid)
+    
+    return game_grid, state_grid
+
+def grid_to_string(grid):
+    max_tile = 2
+    tile_sep = '='*(max_tile + 2)
+    line_sep = '\n '+' '.join(tile_sep for _ in grid[0])+' \n'
+    grid_str = ''
+    for line in grid:
+        grid_str += line_sep
+        grid_str += '|'+'|'.join(str(tile).center(max_tile+2) for tile in line)+'|'
+    grid_str += line_sep
+
+    return grid_str
+
+def get_tile_value(grid, x, y):
+    '''Return value of a tile''' 
+
+    return grid[x][y]
+
+# def is_tile_open(state_grid, x, y):
+#     '''Returns whether or not tile is open'''
+
+#     return state_grid[x][y] != ' '
+
+def get_all_tiles(grid):
+    '''Returns list of all elements in grid'''
+
+    tiles = [item for row in grid for item in row]
+    
+    return tiles
+
 def get_tile_neighbours(game_grid, x, y):
     '''Return the coordinates of the 8 neighbours of certain element'''
 
@@ -105,59 +136,6 @@ def get_tile_neighbours(game_grid, x, y):
         neighbours.extend([(i,j) for j in valid_y if (i,j) != (x,y)])
 
     return neighbours
-
-def grid_to_string(game_grid):
-    max_tile = 2
-    tile_sep = '='*(max_tile + 2)
-    line_sep = '\n '+' '.join(tile_sep for _ in game_grid[0])+' \n'
-    grid_str = ''
-    for line in game_grid:
-        grid_str += line_sep
-        grid_str += '|'+'|'.join(str(tile).center(max_tile+2) for tile in line)+'|'
-    grid_str += line_sep
-
-    return grid_str
-
-def get_tile_value(game_grid, x, y):
-    '''Return value of a tile''' 
-
-    return game_grid[x][y]
-
-def is_tile_open(state_grid, x, y):
-    '''Returns whether or not tile is open'''
-
-    return state_grid[x][y] != ' '
-
-def get_all_tiles(grid):
-    '''Returns list of all elements in grid'''
-
-    flat_list = []
-    for row in grid:
-        for item in row:
-            if item == 0:
-                flat_list.append(0)
-            else:
-                flat_list.append(item)
-    return flat_list
-
-def is_game_over(game_grid, state_grid):
-    '''Check if game is over by clicking on bomb or if player won'''
-
-    for row in state_grid:
-        for tile in row:
-            if tile == -1:
-                return True
-            
-    number_unclicked_tiles = get_all_tiles(state_grid).count(' ')
-    number_unclicked_tiles += get_all_tiles(state_grid).count('f')
-    number_unclicked_tiles += get_all_tiles(state_grid).count('?')
-    
-    size_grid = len(game_grid)
-
-    if dict_number_bombs_by_size[size_grid] == number_unclicked_tiles:
-        return True
-    else:
-        return False
     
 def open_tiles(game_grid, state_grid, x, y):
     '''Returns player grid after update'''
@@ -174,32 +152,37 @@ def open_tiles(game_grid, state_grid, x, y):
 def make_move(game_grid, state_grid, cmd, x, y):
     '''Chooses action to do on player grid based on the command the player entered'''
 
-    if get_tile_value(state_grid, x, y) in {' ', 'f', '?'}:
+    if get_tile_value(state_grid, x, y) in (' ', 'f', '?'):
         match cmd:
             case "o":
                 open_tiles(game_grid, state_grid, x, y)
-            case "f":
-                if state_grid[x][y] == ' ':
-                    state_grid[x][y] = 'f'
-                elif state_grid[x][y] == 'f':
-                    state_grid[x][y] = ' '
-            case "?":
-                if state_grid[x][y] == ' ':
-                    state_grid[x][y] = '?'
-                elif state_grid[x][y] == '?':
-                    state_grid[x][y] = ' '
+            case "f" if state_grid[x][y] == ' ':
+                state_grid[x][y] = 'f'
+            case "f" if state_grid[x][y] == 'f':
+                state_grid[x][y] = ' '
+            case "?" if state_grid[x][y] == ' ':
+                state_grid[x][y] = '?'
+            case "?" if state_grid[x][y] == '?':
+                state_grid[x][y] = ' '
 
     return state_grid
 
-def game_grid_init():
-    '''Initializes grid'''
+def is_game_over(state_grid, n_bombs):
+    '''Check if game is over by clicking on bomb or if player won'''
 
-    game_grid, state_grid = game_grid_create()
-    game_grid = place_bombs(game_grid)
-    game_grid = tile_number_calculate(game_grid)
+    for row in state_grid:
+        for tile in row:
+            if tile == -1:
+                return True
+            
+    number_unclicked_tiles = get_all_tiles(state_grid).count(' ')
+    number_unclicked_tiles += get_all_tiles(state_grid).count('f')
+    number_unclicked_tiles += get_all_tiles(state_grid).count('?')
     
-    return game_grid, state_grid
+    return n_bombs == number_unclicked_tiles
 
+def game_play():
+    pass
 
 #is game over
 #get neighbours
