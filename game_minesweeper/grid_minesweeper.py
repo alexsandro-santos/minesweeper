@@ -35,11 +35,20 @@ def get_bombs_positions(n, n_bombs):
     return bombs
 
 
-def place_bombs(game_grid, bombs):
-    '''Substitute bombs in game grid'''
+def place_bombs_at_position(game_grid, bombs):
+    '''Substitute bombs in game grid in specific positions'''
 
     for bomb in bombs:
         game_grid[bomb[0]][bomb[1]] = -1
+
+    return game_grid
+
+
+def place_bombs_at_random(game_grid, n_bombs):
+    '''Substitute bombs in game grid in random positions'''
+
+    bombs = get_bombs_positions(len(game_grid), n_bombs)
+    game_grid = place_bombs_at_position(game_grid, bombs)
 
     return game_grid
 
@@ -62,8 +71,7 @@ def game_grid_init(n, n_bombs, first_move):
     '''Initializes grid'''
 
     game_grid, state_grid = game_grid_create(n)
-    bombs = get_bombs_positions(n, n_bombs)
-    game_grid = place_bombs(game_grid, bombs)
+    game_grid = place_bombs_at_random(game_grid, n_bombs)
 
     if get_tile_value(game_grid, *first_move) == -1:
         new_bomb_pos = get_random_position(len(game_grid))
