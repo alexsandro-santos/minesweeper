@@ -98,31 +98,24 @@ def get_tile_neighbours(game_grid, x, y):
 
     neighbours = []
     grid_dim = (len(game_grid[0]), len(game_grid))
-    valid_x = [x+i for i in range(-1,2) if 0 <= x+i < grid_dim[0]]
-    valid_y = [y+i for i in range(-1,2) if 0 <= y+i < grid_dim[1]]
+    valid_x = [x+i for i in range(-1,2) if 0 <= x+i < grid_dim[1]]
+    valid_y = [y+i for i in range(-1,2) if 0 <= y+i < grid_dim[0]]
     for i in valid_x:
         neighbours.extend([(i,j) for j in valid_y if (i,j) != (x,y)])
 
     return neighbours
 
 def grid_to_string(game_grid):
-    '''Return grid as string so it's visible in CLI'''
-    
-    separator = ''
-    game_string = ''
-    for _ in range (len(game_grid)):
-        separator+= ' ==='
+    max_tile = 2
+    tile_sep = '='*(max_tile + 2)
+    line_sep = '\n '+' '.join(tile_sep for _ in game_grid[0])+' \n'
+    grid_str = ''
     for line in game_grid:
-        game_string+=(separator + '\n')
-        line_string = "|"
-        for item in line:
-            if item == 0:
-                item = 0
-            line_string += " " + str(item) + ' |'
-        game_string+=line_string+'\n'
-    game_string+=separator
+        grid_str += line_sep
+        grid_str += '|'+'|'.join(str(tile).center(max_tile+2) for tile in line)+'|'
+    grid_str += line_sep
 
-    return game_string
+    return grid_str
 
 def get_tile_value(game_grid, x, y):
     '''Return value of a tile''' 
@@ -170,9 +163,9 @@ def open_tiles(game_grid, state_grid, x, y):
 
     tiles_to_open = [(x,y)]
     for tile in tiles_to_open:
-        tiles_to_open.extend(get_neighbours_to_open(game_grid, *tile))
+        tiles_to_open.extend([n_tile for n_tile in get_neighbours_to_open(game_grid, *tile) if n_tile not in tiles_to_open])
     for tile in tiles_to_open:
-        if get_tile_value(state_grid, *tile) in {' ', 'f', '?'}:
+        if get_tile_value(state_grid, *tile) in (' ', 'f', '?'):
             state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
     
     return state_grid
