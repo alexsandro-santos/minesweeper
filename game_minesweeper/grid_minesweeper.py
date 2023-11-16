@@ -4,56 +4,35 @@ from game_minesweeper.textual_minesweeper import *
 
 def game_grid_create(n=6):
     '''Create game matrix and state matrix for interface'''
-    
-    game_grid = []
-    state_grid = []
-    row = []
 
-    for i in range(n):
-        row = []
-        for j in range(n):
-            row.append(0)
-        game_grid.append(row)
-
-    for i in range(n):
-        row = []
-        for j in range(n):
-            row.append(' ')
-        state_grid.append(row)
+    game_grid = [[0 for _ in range(n)] for _ in range(n)]
+    state_grid = [[' ' for _ in range(n)] for _ in range(n)]
     
     return game_grid, state_grid
 
-def get_random_position(game_grid):
+def get_random_position(n):
     '''Returns a random position on the grid'''
 
-    positions = []
-    size_grid = len(game_grid)
+    x = random.randint(0, n - 1)
+    y = random.randint(0, n - 1)
 
-    for i in range(size_grid):
-        for j in range(size_grid):
-            positions.append((i, j))
+    return x, y
 
-    random_position = random.choice(positions)
-
-    return random_position
-
-def get_bombs_positions(game_grid, n_bombs):
+def get_bombs_positions(n, n_bombs):
     '''Create random positions for bombs'''
 
     bombs = []
     i = 0
     while i < n_bombs:
-        random_position = get_random_position(game_grid)
+        random_position = get_random_position(n)
         if random_position not in bombs:
             bombs.append(random_position)
             i += 1
 
     return bombs
 
-def place_bombs(game_grid, n_bombs):
+def place_bombs(game_grid, bombs):
     '''Substitute bombs in game grid'''
-
-    bombs = get_bombs_positions(game_grid, n_bombs)
 
     for bomb in bombs:
         game_grid[bomb[0]][bomb[1]] = -1
@@ -89,12 +68,13 @@ def game_grid_init(n, n_bombs, first_move):
     '''Initializes grid'''
 
     game_grid, state_grid = game_grid_create(n)
-    game_grid = place_bombs(game_grid, n_bombs)
+    bombs = get_bombs_positions(n, n_bombs)
+    game_grid = place_bombs(game_grid, bombs)
 
     if get_tile_value(game_grid, *first_move) == -1:
-        new_bomb_pos = get_random_position(game_grid)
+        new_bomb_pos = get_random_position(len(game_grid))
         while get_tile_value(game_grid, *new_bomb_pos) == -1:
-            new_bomb_pos = get_random_position(game_grid)
+            new_bomb_pos = get_random_position(len(game_grid))
         game_grid[first_move[0]][first_move[1]] = 0
         game_grid[new_bomb_pos[0]][new_bomb_pos[1]] = -1
 
@@ -103,6 +83,8 @@ def game_grid_init(n, n_bombs, first_move):
     return game_grid, state_grid
 
 def grid_to_string(grid):
+    '''Generates formated string from grid'''
+
     max_tile = 2
     tile_sep = '='*(max_tile + 2)
     line_sep = '\n '+' '.join(tile_sep for _ in grid[0])+' \n'
@@ -187,6 +169,7 @@ def is_game_over(state_grid, n_bombs):
     return n_bombs == number_unclicked_tiles
 
 def game_play():
+
     n, n_bombs = read_player_difficulty()
 
     _, state_grid = game_grid_create(n)
@@ -220,7 +203,3 @@ def game_play():
         print('\nYou lost')
     else:
         print('\nYou won!')
-
-#is game over
-#get neighbours
-#open tile
