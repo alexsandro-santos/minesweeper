@@ -2,7 +2,7 @@ import random
 import os
 from game_minesweeper.textual_minesweeper import *
 
-def game_grid_create(n=6):
+def game_grid_create(n=10):
     '''Create game matrix and state matrix for interface'''
 
     game_grid = [[0 for _ in range(n)] for _ in range(n)]
