@@ -187,39 +187,39 @@ def is_game_over(state_grid, n_bombs):
     return n_bombs == number_unclicked_tiles
 
 def game_play():
-    n, n_bombs = read_player_difficulty()
+    n, n_bombs = read_player_difficulty() ## difficulty selection
 
     _, state_grid = game_grid_create(n)
     print(grid_to_string(state_grid))
 
-    cmd = read_player_command()
-    first_coord_x = read_player_coordinate(n)
-    first_coord_y = read_player_coordinate(n)
+    cmd = read_player_command() ## click right or left
+    first_coord_x = read_player_coordinate(n) ## x
+    first_coord_y = read_player_coordinate(n) ## y
 
     game_grid, state_grid = game_grid_init(n, n_bombs, (first_coord_x, first_coord_y))
 
     state_grid = make_move(game_grid, state_grid, cmd, first_coord_x, first_coord_y)
 
     os.system("cls" if os.name == "nt" else "clear")
-    print(grid_to_string(state_grid))
+    print(grid_to_string(state_grid)) ## send state_grid
 
     while not is_game_over(state_grid, n_bombs):
-        cmd = read_player_command()
-        coordinate_x = read_player_coordinate(n)
-        coordinate_y = read_player_coordinate(n)
+        cmd = read_player_command() ## receive from gui
+        coordinate_x = read_player_coordinate(n) ## receive from gui
+        coordinate_y = read_player_coordinate(n) ## receive from gui
 
         state_grid = make_move(game_grid, state_grid, cmd, coordinate_x, coordinate_y)
 
         os.system("cls" if os.name == "nt" else "clear")
-        print(grid_to_string(state_grid))
+        print(grid_to_string(state_grid)) ## send to gui
 
     os.system("cls" if os.name == "nt" else "clear")
-    print(grid_to_string(game_grid))
+    print(grid_to_string(game_grid)) ## send to gui
 
     if -1 in get_all_tiles(state_grid):
-        print('\nYou lost')
+        print('\nYou lost') # change a state to show endgame status
     else:
-        print('\nYou won!')
+        print('\nYou won!') # change a state to show endgame status
 
 #is game over
 #get neighbours
