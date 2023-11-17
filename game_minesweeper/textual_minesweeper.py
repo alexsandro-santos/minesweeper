@@ -1,5 +1,6 @@
 difficulty = {"easy": (10, 20), "medium": (16, 35), "hard": (20, 50)}
 
+
 def read_player_difficulty():
     while True:
         choice = input("Choose complexity between 'easy', 'medium' or 'hard':")
@@ -12,6 +13,7 @@ def read_player_difficulty():
 
     return n, n_bombs
 
+
 def read_player_command():
     while True:
         cmd = input("Choose move between 'o' for open, 'f' for flag or '?':")
@@ -21,6 +23,7 @@ def read_player_command():
             print("Valid choice, please")
 
     return cmd
+
 
 def read_player_coordinate(n):
     while True:
@@ -35,4 +38,4 @@ def read_player_coordinate(n):
         else:
             print("Valid choice, please")
 
-    return choice-1
+    return choice - 1
