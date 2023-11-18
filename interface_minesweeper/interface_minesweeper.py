@@ -97,10 +97,14 @@ def press_button(string):
 
 
 def on_closing(root):
-    global running
+    global game_over,x,y
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()
-        running = False
+        game_over = True
+        x=0
+        y=0
+
+
 
 def read_click(m,n):
     global x,y

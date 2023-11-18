@@ -17,6 +17,7 @@ def start_game():
     return n, n_bombs, root, state_grid
 
 def play_game(n, n_bombs, root, state_grid):
+    global game_over
     gui_ms.create_grid_gui(root, state_grid,
                            lambda n=n, n_bombs=n_bombs,
                            root = root, state_grid = state_grid:
@@ -29,14 +30,17 @@ def play_game(n, n_bombs, root, state_grid):
     state_grid = grid_ms.make_move(game_grid, state_grid, 'o', click_x, click_y)
     gui_ms.open_button(click_x,click_y,state_grid, game_grid)
     open_all(state_grid, game_grid)
-    while not grid_ms.is_game_over(state_grid, n_bombs):
+    game_over = grid_ms.is_game_over(state_grid, n_bombs)
+    while not game_over:
         root.wait_variable(gui_ms.x)
         cmd = 'o' ## receive from gui
         coordinate_x = gui_ms.x.get() ## receive from gui
         coordinate_y = gui_ms.y.get() ## receive from gui
-
         state_grid = grid_ms.make_move(game_grid, state_grid, cmd, coordinate_x, coordinate_y)
         open_all(state_grid, game_grid)
+        if not game_over:
+            game_over = grid_ms.is_game_over(state_grid, n_bombs)
+        print('dentro')
 
     if -1 in grid_ms.get_all_tiles(state_grid):
         print('\nYou lost') # change a state to show endgame status
