@@ -3,7 +3,6 @@ from tkinter import messagebox
 import random
 from PIL import Image, ImageTk
 import html
-import sys
 
 flag = html.unescape('&#128681')
 qm = html.unescape('&#63')
@@ -122,6 +121,20 @@ def startup():
     Label(root, text='20x20 grid, 80 bombs', font= ('Helvetica 12')).grid(row=11,column=0)
     Label(root).grid(row=12,column=0)
     root.protocol("WM_DELETE_WINDOW", lambda arg=root: on_closing(arg))
+
+    root.update_idletasks()
+
+    w = root.winfo_width() # width for the Tk root
+    h = root.winfo_height() # height for the Tk root
+
+    ws = root.winfo_screenwidth() # width of the screen
+    hs = root.winfo_screenheight() # height of the screen
+
+    window_x = (ws/2) - (w/2)
+    window_y = (hs/2) - (h/2)
+
+    root.geometry('%dx%d+%d+%d' % (w, h, window_x, window_y))
+
     return root
 
 
@@ -203,6 +216,19 @@ def create_grid_gui(root, grid, start_function): #will receive the state_grid ge
             buttons[i].append(button)
     #mainFrame.protocol("WM_DELETE_WINDOW", )
     mainFrame.protocol("WM_DELETE_WINDOW", lambda arg=root: on_closing(arg))
+
+    mainFrame.update_idletasks()
+
+    w = mainFrame.winfo_width() # width for the Tk root
+    h = mainFrame.winfo_height() # height for the Tk root
+
+    ws = mainFrame.winfo_screenwidth() # width of the screen
+    hs = mainFrame.winfo_screenheight() # height of the screen
+
+    window_x = (ws/2) - (w/2)
+    window_y = (hs/2) - (h/2)
+
+    mainFrame.geometry('%dx%d+%d+%d' % (w, h, window_x, window_y))
 
     return mainFrame
     
