@@ -53,6 +53,7 @@ def play_game(n, n_bombs, root, state_grid):
         print('\nGame closed before the end') # change a state to show endgame status
     elif -1 not in grid_ms.get_all_tiles(state_grid):
         print('\nYou won!') # change a state to show endgame status
+        gui_ms.rb['text'] = gui_ms.winface
     else:
         print('\nYou lost!') # change a state to show endgame status
 

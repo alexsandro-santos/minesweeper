@@ -1,4 +1,4 @@
-difficulty = {"easy": (10, 20), "medium": (16, 35), "hard": (20, 50)}
+difficulty = {"easy": (10, 10), "medium": (16, 35), "hard": (20, 80)}
 
 
 def read_player_difficulty():
