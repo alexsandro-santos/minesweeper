@@ -150,7 +150,7 @@ def open_tiles(game_grid, state_grid, x, y):
     for tile in tiles_to_open:
         tiles_to_open.extend([n_tile for n_tile in get_neighbours_to_open(game_grid, *tile) if n_tile not in tiles_to_open])
     for tile in tiles_to_open:
-        if get_tile_value(state_grid, *tile) in (' ', 'f', '?'):
+        if get_tile_value(state_grid, *tile) == ' ': #, 'f', '?'):
             state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
     
     return state_grid
@@ -166,10 +166,8 @@ def make_move(game_grid, state_grid, cmd, x, y):
             case "f" if state_grid[x][y] == ' ':
                 state_grid[x][y] = 'f'
             case "f" if state_grid[x][y] == 'f':
-                state_grid[x][y] = ' '
-            case "?" if state_grid[x][y] == ' ':
                 state_grid[x][y] = '?'
-            case "?" if state_grid[x][y] == '?':
+            case "f" if state_grid[x][y] == '?':
                 state_grid[x][y] = ' '
 
     return state_grid
@@ -222,3 +220,6 @@ def game_play():
         print('\nYou lost') # change a state to show endgame status
     else:
         print('\nYou won!') # change a state to show endgame status
+
+if __name__ == '__main__':
+    game_play()

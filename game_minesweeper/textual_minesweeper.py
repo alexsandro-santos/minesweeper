@@ -4,7 +4,7 @@ difficulty = {"easy": (10, 10), "medium": (16, 35), "hard": (20, 80)}
 def read_player_difficulty():
     while True:
         choice = input("Choose complexity between 'easy', 'medium' or 'hard':")
-        if choice in {"easy", "medium", "hard"}:
+        if choice in ("easy", "medium", "hard"):
             break
         else:
             print("Valid choice, please")
@@ -16,8 +16,8 @@ def read_player_difficulty():
 
 def read_player_command():
     while True:
-        cmd = input("Choose move between 'o' for open, 'f' for flag or '?':")
-        if cmd in {"o", "f", "?"}:
+        cmd = input("Choose move between 'o' for open, 'f' for flag:")
+        if cmd in ("o", "f"):
             break
         else:
             print("Valid choice, please")
