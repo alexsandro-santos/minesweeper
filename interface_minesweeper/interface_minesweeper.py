@@ -97,12 +97,15 @@ def press_button(string):
 
 
 def on_closing(root):
-    global game_over,x,y
+    global x, diff
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        root.destroy()
-        game_over = True
-        x=0
-        y=0
+        #game_over = True
+        try:
+            diff.set('close')
+            x.set(0)
+            root.destroy()
+        except: pass
+        
 
 
 
@@ -170,13 +173,13 @@ def show_bombs(state_grid, game_grid):
     rb['text']=sad
     for i in range(len(state_grid)):
         for j in range(len(state_grid)):
-            print('analyzing', i,j)
+            #print('analyzing', i,j)
             if game_grid[i][j] == -1 and buttons[i][j]['text'] != exploded:
                 open_button(i,j,state_grid,game_grid,bomb)
-                print('bomb at', i,j)
+                #print('bomb at', i,j)
             else:
                 buttons[i][j]['state'] = 'disabled'
-                print('disabling', i,j)
+                #print('disabling', i,j)
 
 def setup_grid(x):
     grid = []
