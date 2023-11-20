@@ -1,16 +1,14 @@
 import random
 import os
 from game_minesweeper.textual_minesweeper import *
-game_grid, state_grid = [],[]
 
-def f(string):
-    print(string)
 
 def game_grid_create(n=10):
     '''Create game matrix and state matrix for interface'''
-    global game_grid, state_grid
+
     game_grid = [[0 for _ in range(n)] for _ in range(n)]
     state_grid = [[' ' for _ in range(n)] for _ in range(n)]
+
     return game_grid, state_grid
 
 
@@ -130,14 +128,14 @@ def get_tile_neighbours(game_grid, x, y):
     return neighbours
 
 
-def get_neighbours_to_open(game_grid, x, y):
+def get_neighbours_to_open(game_grid, x, y, clicked_tile):
     '''Returns all neighbours that should be opened'''
 
     neighbours_to_open = []
 
     if get_tile_value(game_grid, x, y) == 0:
-        neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y)]
-    elif get_tile_value(game_grid, x, y) != -1:
+        neighbours_to_open += get_tile_neighbours(game_grid, x, y)
+    elif get_tile_value(game_grid, x, y) != -1 and clicked_tile:
         neighbours_to_open += [item for item in get_tile_neighbours(game_grid, x, y) if get_tile_value(game_grid, *item) == 0]
 
     return neighbours_to_open
@@ -147,10 +145,13 @@ def open_tiles(game_grid, state_grid, x, y):
     '''Returns player grid after update'''
 
     tiles_to_open = [(x,y)]
+    tiles_to_open.extend(get_neighbours_to_open(game_grid, x, y, clicked_tile=True))
     for tile in tiles_to_open:
-        tiles_to_open.extend([n_tile for n_tile in get_neighbours_to_open(game_grid, *tile) if n_tile not in tiles_to_open])
+        tiles_to_open.extend(\
+            [n_tile for n_tile in get_neighbours_to_open(\
+                game_grid, *tile, clicked_tile=False) if n_tile not in tiles_to_open])
     for tile in tiles_to_open:
-        if get_tile_value(state_grid, *tile) == ' ': #, 'f', '?'):
+        if get_tile_value(state_grid, *tile) == ' ':
             state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
     
     return state_grid
