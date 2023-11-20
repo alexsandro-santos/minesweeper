@@ -145,12 +145,13 @@ def open_tiles(game_grid, state_grid, x, y):
     '''Returns player grid after update'''
 
     tiles_to_open = [(x,y)]
+    state_grid[x][y] = game_grid[x][y]
     tiles_to_open.extend(get_neighbours_to_open(game_grid, x, y, clicked_tile=True))
     for tile in tiles_to_open:
         tiles_to_open.extend(\
             [n_tile for n_tile in get_neighbours_to_open(\
                 game_grid, *tile, clicked_tile=False) if n_tile not in tiles_to_open])
-    for tile in tiles_to_open:
+    for tile in tiles_to_open[1:]:
         if get_tile_value(state_grid, *tile) == ' ':
             state_grid[tile[0]][tile[1]] = game_grid[tile[0]][tile[1]]
     

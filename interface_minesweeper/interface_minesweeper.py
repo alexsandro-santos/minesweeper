@@ -51,7 +51,7 @@ def right_click(event,m,n):
             bomb_count.set(bomb_count.get()+1)
             label_count['text'] = bomb_count.get()
             cmd.set('f')
-        else:
+        elif bot["text"] == qm:
             bot.configure(text=" ")
             bot.configure(bg="gray")
             cmd.set('f')
@@ -232,13 +232,13 @@ def create_grid_gui(root, grid, start_function): #will receive the state_grid ge
 
     return mainFrame
     
-def open_button(i,j,cmd, state_grid,game_grid, text = ' '):
+def open_button(i,j,command, state_grid,game_grid, text = ' '):
     global mainFrame, colors, bomb, exploded, rb, sad, winface
     #print('Opening case ',i,j)
     pressed = buttons[i][j]
     if text == ' ':
         text = get_text(state_grid,i,j)
-    if pressed['state'] != 'disabled' and cmd == 'o':
+    if pressed['state'] != 'disabled' and command == 'o':
         # if pressed['text'] not in (qm, flag):
         color = colors.get(state_grid[i][j],"white")
         new = Button(mainFrame, bg=color, fg = 'orange', width=2, height=1,

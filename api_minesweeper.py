@@ -2,10 +2,10 @@ from interface_minesweeper import interface_minesweeper as gui_ms
 from game_minesweeper import grid_minesweeper as grid_ms
 from game_minesweeper.textual_minesweeper import difficulty
 
-def open_all(state_grid, game_grid):
+def open_all(state_grid, game_grid, x, y):
     for i, row in enumerate(state_grid):
         for j, tile in enumerate(row):
-            if tile not in ('f','?',' '):
+            if tile not in ('f','?',' ') or (i==x and j==y):
                 gui_ms.open_button(i,j,'o',state_grid, game_grid)
 
 def start_game():
@@ -40,9 +40,9 @@ def play_game(n, n_bombs, root, state_grid):
         command = gui_ms.cmd.get()
         game_grid, state_grid = grid_ms.game_grid_init(n, n_bombs, (click_x, click_y))
         state_grid = grid_ms.make_move(game_grid, state_grid, command, click_x, click_y)
-        gui_ms.open_button(click_x,click_y,command,state_grid, game_grid)
+        # gui_ms.open_button(click_x,click_y,command,state_grid, game_grid)
         if command == 'o':
-            open_all(state_grid, game_grid)
+            open_all(state_grid, game_grid, click_x, click_y)
         gui_ms.window_open = True
     #print(grid_ms.grid_to_string(state_grid))
     while not grid_ms.is_game_over(state_grid, n_bombs) and gui_ms.window_open :
@@ -54,7 +54,7 @@ def play_game(n, n_bombs, root, state_grid):
             state_grid = grid_ms.make_move(game_grid, state_grid, command, coordinate_x, coordinate_y)
             #print(grid_ms.grid_to_string(state_grid))
             if command == 'o':
-                open_all(state_grid, game_grid)
+                open_all(state_grid, game_grid, coordinate_x, coordinate_y)
         else:
             gui_ms.window_open = False
     
