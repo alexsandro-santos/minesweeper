@@ -24,7 +24,7 @@ def play_game(n, n_bombs, root, state_grid):
     global mainFrame
     
     try: mainFrame.destroy()
-    except: print("No mainFrame to destroy")
+    except: pass
 
 
     gui_ms.window_open = False
@@ -58,13 +58,22 @@ def play_game(n, n_bombs, root, state_grid):
         else:
             gui_ms.window_open = False
     
-    if not gui_ms.window_open:
-        print('\nGame closed before the end') # change a state to show endgame status
-    elif -1 not in grid_ms.get_all_tiles(state_grid):
-        print('\nYou won!') # change a state to show endgame status
-        gui_ms.rb['text'] = gui_ms.winface
-    else:
-        print('\nYou lost!') # change a state to show endgame status
+    
+    if gui_ms.window_open:
+        #print('\nGame closed before the end') # change a state to show endgame status
+        gui_ms.rb['bg']='yellow'
+        b = gui_ms.Label(mainFrame, text='')
+        b.grid(row=1,column=0, columnspan=5)
+        if -1 not in grid_ms.get_all_tiles(state_grid):
+            print('\nYou won!') # change a state to show endgame status
+            b['text'] = "You won!"
+            gui_ms.rb['text'] = gui_ms.winface
+            gui_ms.label_count['text'] = 0
+        else:
+            print('\nYou lost!') # change a state to show endgame status
+            b['text'] = "You lose!"
+            gui_ms.rb['text'] = gui_ms.sad
+            gui_ms.label_count['text'] = n_bombs
 
 if __name__ == '__main__':
     n, n_bombs, root, state_grid = start_game()
