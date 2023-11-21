@@ -1,92 +1,77 @@
-# Minesweeper
+# Product
 
+Minesweeper game implemented via Python with a graphical interface created with Tkinter.
 
+## Features
 
-## Getting started
+- [ ] Difficulty choice;
+- [ ] Random bomb positioning;
+- [ ] First click is never a bomb;
+- [ ] Intuitive Graphical interface which allows for clicking, using flags, using '?', creating new game;
+- [ ] Game code and interface code separated in packages;
+- [ ] Modular approach, with functions executing one task only.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Beauty and ease to play
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- [ ] Interface with retro design, similar to many existing minesweeper games;
+- [ ] Bombs, flags and '?' with nice images;
+- [ ] Smile button to create a new game;
+- [ ] Choice of difficulty between easy, medium or hard.
 
-## Add your files
+## TDD and First week increments
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+For this project, it was not only possible to adapt the same Test Driven Developpement approach to a new system, but it was also possible to reuse some functions that our group implemented for 2048.
+
+- [ ] Test driven developpement:
+
+ In [Link](https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper/-/blob/alexsandro/test_grid.py?ref_type=heads) we implemented tests that our created functions should pass, and as we already knew, the effectiveness of this approach helped us not only to encounter less code problems, but also minimized their impact. 
+
+ Appart from that, some exemples of functions created for the first week that were reused are shown below:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper.git
-git branch -M main
-git push -uf origin main
+def get_all_tiles(grid):
+    tiles = [item for row in grid for item in row]
+    return tiles
+```
+```
+def grid_to_string(grid):
+    max_tile = 2
+    tile_sep = '='*(max_tile + 2)
+    line_sep = '\n '+' '.join(tile_sep for _ in grid[0])+' \n'
+    grid_str = ''
+    for line in grid:
+        grid_str += line_sep
+        line = [tile if tile != -1 else '*' for tile in line]
+        grid_str += '|'+'|'.join(str(tile).center(max_tile+2) for tile in line)+'|'
+    grid_str += line_sep
+
+    return grid_str
 ```
 
-## Integrate with your tools
+## Packages and functions
 
-- [ ] [Set up project integrations](https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper/-/settings/integrations)
+To create a very simple and understandable code, and also to minimize the amount of problems encountered during developpement, we opted for separating the game package and the interface package. As expected, in the main function, it was necessary to import the game and the interface. 
 
-## Collaborate with your team
+```
+from game_minesweeper.grid_minesweeper import *
+from game_minesweeper.textual_minesweeper import *
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+As for the use of functions, the group had a rule that one function implemented one and one only task. This makes error finding very easy and the code is extremely easy to read, so replicating our code in another machine would be simple. In total, 23 functions were implemented.
 
 ***
 
-# Editing this README
+# Team work
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+In order to optimize time consumption and to create better and more specific functions, we separated three zones of work. As in a usual team-work environment, all members participated actively in all areas, some programming more in their zone while others would validate the progress or give new helpful ideas. 
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+We also worked every single shift together, and it was great. The benefits were not only felt in the developpement of the game, where new ideas would show up to help us advance, but also in our personal links to one another. Working together demanded a lot of respect for different ideas and care on how to expose conflicting ideas without issues. 
 
-## Name
-Choose a self-explaining name for your project.
+## Game developpement
+Team members Pedro and Alexsandro were in charge of developping the game.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Interface developpement
+Team member Eduardo was the main responsible for the creation of the graphical interface via Tkinter, receiving help from Team member Alexsandro for the game-interface integration.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Tests creation
+Team member Paola was responsible for the creation of all tests which our functions had to pass in order to verify that all outputs were as imagined. Team member Pedro helped.
