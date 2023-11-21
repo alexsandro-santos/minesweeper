@@ -2,29 +2,49 @@
 
 Minesweeper game implemented via Python with a graphical interface created with Tkinter.
 
+## How to play
+
+1. Clone our repository, that is, download the files of our game. For that, open a terminal and type the following command.
+```
+git clone https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper.git
+```
+2. Enter the folder of the repository with the following command.
+```
+cd minesweeper
+```
+3. Execute the game with one of the following commands depending on your operating system.
+```
+python main.py
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or
+```
+python3 main.py
+```
+3. A screen should open and then you can start playing.
+
 ## Features
 
-- [ ] Difficulty choice;
-- [ ] Random bomb positioning;
-- [ ] First click is never a bomb;
-- [ ] Intuitive Graphical interface which allows for clicking, using flags, using '?', creating new game;
-- [ ] Game code and interface code separated in packages;
-- [ ] Modular approach, with functions executing one task only.
+- Difficulty choice;
+- Random bomb positioning;
+- First click is never a bomb;
+- Intuitive Graphical interface which allows for clicking, using flags, using '?', creating new game;
+- Game code and interface code separated in packages;
+- Modular approach, with functions executing one task only.
 
 ## Beauty and ease to play
 
-- [ ] Interface with retro design, similar to many existing minesweeper games;
-- [ ] Bombs, flags and '?' with nice images;
-- [ ] Smile button to create a new game;
-- [ ] Choice of difficulty between easy, medium or hard.
+- Interface with retro design, similar to many existing minesweeper games;
+- Bombs, flags and '?' with nice images;
+- Smile button to create a new game;
+- Choice of difficulty between easy, medium or hard.
 
 ## TDD and First week increments
 
 For this project, it was not only possible to adapt the same Test Driven Developpement approach to a new system, but it was also possible to reuse some functions that our group implemented for 2048.
 
-- [ ] Test driven developpement:
+### Test driven developpement:
 
- In [Link](https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper/-/blob/alexsandro/test_grid.py?ref_type=heads) we implemented tests that our created functions should pass, and as we already knew, the effectiveness of this approach helped us not only to encounter less code problems, but also minimized their impact. 
+ [Here](https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper/-/blob/alexsandro/test_grid.py?ref_type=heads) we implemented tests that our created functions should pass, and as we already knew, the effectiveness of this approach helped us not only to encounter less code problems, but also minimized their impact. 
 
  Appart from that, some exemples of functions created for the first week that were reused are shown below:
 
@@ -61,17 +81,17 @@ As for the use of functions, the group had a rule that one function implemented 
 
 ***
 
-# Team work
+## Team work
 
 In order to optimize time consumption and to create better and more specific functions, we separated three zones of work. As in a usual team-work environment, all members participated actively in all areas, some programming more in their zone while others would validate the progress or give new helpful ideas. 
 
 We also worked every single shift together, and it was great. The benefits were not only felt in the developpement of the game, where new ideas would show up to help us advance, but also in our personal links to one another. Working together demanded a lot of respect for different ideas and care on how to expose conflicting ideas without issues. 
 
-## Game developpement
+### Game developpement
 Team members Pedro and Alexsandro were in charge of developping the game.
 
-## Interface developpement
+### Interface developpement
 Team member Eduardo was the main responsible for the creation of the graphical interface via Tkinter, receiving help from Team member Alexsandro for the game-interface integration.
 
-## Tests creation
+### Tests creation
 Team member Paola was responsible for the creation of all tests which our functions had to pass in order to verify that all outputs were as imagined. Team member Pedro helped.
