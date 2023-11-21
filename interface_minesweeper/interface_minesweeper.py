@@ -3,6 +3,9 @@ from tkinter import messagebox
 import random
 from PIL import Image, ImageTk
 import html
+from pathlib import Path
+
+
 
 flag = html.unescape('&#128681')
 qm = html.unescape('&#63')
@@ -104,7 +107,8 @@ def startup():
     global diff
     root = Tk()
     diff = StringVar()
-    icon = Image.open("minesweeper/bomb.png")
+    path = Path(__file__).parent.parent / "bomb.png"
+    icon = Image.open(path)
     root.wm_iconphoto(True, ImageTk.PhotoImage(icon))
     root.title("Minesweeper")
     root.resizable(0, 0)
