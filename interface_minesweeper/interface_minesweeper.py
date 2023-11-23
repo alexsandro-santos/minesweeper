@@ -93,7 +93,7 @@ def startup():
     Label(root).grid(row=3,column=0)
 
     Button(root, text='Easy', font= ('Helvetica 20'), width=8, height=1,
-           command= lambda string = 'easy': diff.set(string)).grid(row=4,column=0) # vai chamar a função pra criar o jogo
+           command= lambda string = 'easy': diff.set(string)).grid(row=4,column=0)
     Label(root, text='10x10 grid, 10 bombs', font= ('Helvetica 12')).grid(row=5,column=0)
     Label(root).grid(row=6,column=0)
 

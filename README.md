@@ -20,7 +20,7 @@ python main.py
 ```
 python3 main.py
 ```
-3. A screen should open and then you can start playing.
+4. A screen should open and then you can start playing.
 
 ## Features
 
@@ -46,7 +46,7 @@ For this project, it was not only possible to adapt the same Test Driven Develop
 
  [Here](https://gitlab-cw1.centralesupelec.fr/eppa-python/minesweeper/-/blob/alexsandro/test_grid.py?ref_type=heads) we implemented tests that our created functions should pass, and as we already knew, the effectiveness of this approach helped us not only to encounter less code problems, but also minimized their impact. 
 
- Appart from that, some exemples of functions created for the first week that were reused are shown below:
+ Appart from that, some examples of functions created for the first week that were reused are shown below:
 
 ```
 def get_all_tiles(grid):
