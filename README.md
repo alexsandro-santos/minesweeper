@@ -1,4 +1,4 @@
-# Product
+# Minesweeper
 
 Minesweeper game implemented via Python with a graphical interface created with Tkinter. Project made for a challenge week at CentraleSupélec.
 
